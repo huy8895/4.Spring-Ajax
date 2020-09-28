@@ -5,25 +5,32 @@
     <title>Create new Smartphone</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#newSmartphoneForm').submit(function(event) {
+        $(document).ready(function () {
+            $('#newSmartphoneForm').submit(function (event) {
                 var producer = $('#producer').val();
                 var model = $('#model').val();
                 var price = $('#price').val();
-                var json = { "producer" : producer, "model" : model, "price": price};
+                var json = {
+                    "producer": {
+                        "id": producer,
+                    },
+                    "model": model,
+                    "price": price,
+
+                };
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    type : "POST",
+                    type: "POST",
                     data: JSON.stringify(json),
                     url: "/smartphones/create",
-                    success: function(smartphone) {
+                    success: function (smartphone) {
                         var respContent = "";
                         respContent += "<span class='success'>Smartphone was created: [";
-                        respContent += smartphone.producer + " : ";
-                        respContent += smartphone.model + " : " ;
+                        respContent += smartphone.producer.name + " : ";
+                        respContent += smartphone.model + " : ";
                         respContent += smartphone.price + "]</span>"
                         $("#sPhoneFromResponse").html(respContent);
                     }
@@ -47,24 +54,21 @@
             <tr>
                 <td>Producer:</td>
                 <td>
-                    <select id="producer">
-                        <option value="NOKIA">Nokia</option>
-                        <option selected="selected" value="IPHONE">iPhone</option>
-                        <option value="HTC">HTC</option>
-                        <option value="SAMSUNG">Samsung</option>
+                    <select id="producer" th:field="*{producer}">
+                        <option th:each="p:${producers}" th:value="${p.id}" th:text="${p.name}"></option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>Model:</td>
-                <td><input th:field="*{model}" /></td>
+                <td><input th:field="*{model}"/></td>
             </tr>
             <tr>
                 <td>Price:</td>
-                <td><input th:field="*{price}" /></td>
+                <td><input th:field="*{price}"/></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Create" /></td>
+                <td><input type="submit" value="Create"/></td>
                 <td></td>
             </tr>
             </tbody>

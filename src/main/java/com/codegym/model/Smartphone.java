@@ -9,7 +9,10 @@ public class Smartphone {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String producer;
+
+    @ManyToOne
+    private Producer producer;
+
     private String model;
     private double price;
 
@@ -21,11 +24,11 @@ public class Smartphone {
         this.id = id;
     }
 
-    public String getProducer() {
+    public Producer getProducer() {
         return producer;
     }
 
-    public void setProducer(String producer) {
+    public void setProducer(Producer producer) {
         this.producer = producer;
     }
 

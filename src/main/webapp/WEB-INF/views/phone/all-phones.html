@@ -21,7 +21,7 @@
                         var rowToDelete = $(event.target).closest("tr");
                         rowToDelete.remove();
                         respContent += "<span class='success'>Smartphone was deleted: [";
-                        respContent += smartphone.producer + " : ";
+                        respContent += smartphone.producer.name + " : ";
                         respContent += smartphone.model + " : ";
                         respContent += smartphone.price + "]</span>";
                         $("#sPhoneFromResponse").html(respContent);
@@ -30,6 +30,7 @@
                 event.preventDefault();
             });
         });
+
     </script>
 </head>
 <body>
@@ -52,7 +53,7 @@
         <tbody>
         <th:block th:each="phone : ${allphones}">
             <tr>
-                <td th:text="${phone.producer}"></td>
+                <td th:text="${phone.producer.name}"></td>
                 <td th:text="${phone.model}"></td>
                 <td th:text="${phone.price}"></td>
                 <td>

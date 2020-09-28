@@ -49,10 +49,7 @@
                 <td>Producer:</td>
                 <td>
                     <select id="producer" th:field="*{producer}">
-                        <option value="NOKIA">Nokia</option>
-                        <option value="IPHONE">iPhone</option>
-                        <option value="HTC">HTC</option>
-                        <option value="SAMSUNG">Samsung</option>
+                        <option th:each="p:${producers}" th:value="${p.id}" th:text="${p.name}"></option>
                     </select>
                 </td>
             </tr>
