@@ -6,19 +6,26 @@ import com.codegym.repository.ProducerRepository;
 import com.codegym.service.SmartphoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/smartphones")
 public class SmartphoneController {
+    @Autowired
+    private Environment environment;
 
     @Autowired
     private SmartphoneService smartphoneService;
@@ -39,13 +46,22 @@ public class SmartphoneController {
         return mav;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Smartphone createSmartphone(@RequestBody Smartphone smartphone) {
-        smartphone.setProducer(producerRepository.findOne(smartphone.getProducer().getId()));
-        return smartphoneService.save(smartphone);
+    public void createSmartphone(@RequestParam("image") MultipartFile image) {
+        //1 gan student nhung thuoc tinh cua studentForm
+
+        System.out.println(image);
+//        MultipartFile file = smartphone.getImage();
+//        String image = file.getOriginalFilename();
+//        String fileUpload = environment.getProperty("file_upload");
+//        try {
+//            FileCopyUtils.copy(image.getBytes(), new File(fileUpload + image));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        smartphone.setProducer(producerRepository.findOne(smartphone.getProducer().getId()));
+//        return smartphoneService.save(smartphone);
     }
 
     @GetMapping("")

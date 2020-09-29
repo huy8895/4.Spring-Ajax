@@ -7,24 +7,28 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#newSmartphoneForm').submit(function (event) {
+                var fd = new FormData();
                 var producer = $('#producer').val();
                 var model = $('#model').val();
                 var price = $('#price').val();
+                var image = $('#image')[0].files[0];
                 var json = {
                     "producer": {
                         "id": producer,
                     },
                     "model": model,
                     "price": price,
-
                 };
+                fd.append("file",image);
+                fd.append("smartphone",JSON.stringify(json));
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
+                    enctype: 'multipart/form-data',
                     type: "POST",
-                    data: JSON.stringify(json),
+                    data: fd,
                     url: "/smartphones/create",
                     success: function (smartphone) {
                         var respContent = "";
@@ -48,7 +52,7 @@
         <p>Here you can create new Smartphone:</p>
         <div id="sPhoneFromResponse"></div>
     </div>
-    <form id="newSmartphoneForm" th:object="${sPhone}">
+    <form id="newSmartphoneForm" enctype=multipart/form-data method="POST" th:object="${sPhone}">
         <table>
             <tbody>
             <tr>
@@ -66,6 +70,10 @@
             <tr>
                 <td>Price:</td>
                 <td><input th:field="*{price}"/></td>
+            </tr>
+            <tr>
+                <td>Image:</td>
+                <td><input type="file" th:field="*{image}"/></td>
             </tr>
             <tr>
                 <td><input type="submit" value="Create"/></td>

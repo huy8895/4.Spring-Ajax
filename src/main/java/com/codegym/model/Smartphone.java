@@ -1,5 +1,7 @@
 package com.codegym.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,17 @@ public class Smartphone {
 
     private String model;
     private double price;
+
+    @Transient
+    private MultipartFile image;
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
+    }
 
     public Long getId() {
         return id;
