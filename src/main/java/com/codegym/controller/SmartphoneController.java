@@ -24,7 +24,7 @@ public class SmartphoneController {
     private SmartphoneService smartphoneService;
 
     @Autowired
-    ProducerRepository producerRepository;
+    private ProducerRepository producerRepository;
 
 
     @ModelAttribute("producers")
@@ -39,13 +39,15 @@ public class SmartphoneController {
         return mav;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Smartphone createSmartphone(@RequestBody Smartphone smartphone) {
+//    @RequestMapping(value = "/create", method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/create")
+    public ResponseEntity<Smartphone> createSmartphone(@RequestBody Smartphone smartphone) {
         smartphone.setProducer(producerRepository.findOne(smartphone.getProducer().getId()));
-        return smartphoneService.save(smartphone);
+        smartphoneService.save(smartphone);
+//        return new ResponseEntity<>(smartphone,HttpStatus.OK);
+        return ResponseEntity.ok(smartphone);
     }
 
     @GetMapping("")
@@ -55,15 +57,14 @@ public class SmartphoneController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/delete/{id}",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteSmartphone(@PathVariable Long id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Smartphone> deleteSmartphone(@PathVariable Long id){
+        Smartphone smartphone = smartphoneService.findById(id);
         smartphoneService.remove(id);
+        return ResponseEntity.ok(smartphone);
     }
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @GetMapping("/edit/{id}")
     public ModelAndView editSmartphonePage(@PathVariable long id) {
         ModelAndView mav = new ModelAndView("phone/edit-phone");
         Smartphone smartphone = smartphoneService.findById(id);
@@ -71,13 +72,9 @@ public class SmartphoneController {
         return mav;
     }
 
-    @RequestMapping(value = "/edit/{id}",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Smartphone editSmartphone(@PathVariable long id, @RequestBody Smartphone smartphone) {
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Smartphone> editSmartphone(@PathVariable long id, @RequestBody Smartphone smartphone) {
         smartphone.setId(id);
-        return smartphoneService.save(smartphone);
+        return ResponseEntity.ok(smartphoneService.save(smartphone));
     }
 }

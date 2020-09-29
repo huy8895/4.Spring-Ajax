@@ -9,15 +9,14 @@
             var deleteLink = $("a:contains('Delete')");
             $(deleteLink).click(function (event) {
                 $.ajax({
-                    url: $(event.target).attr("href"),
-                    type: "POST",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Accept", "application/json");
-                        xhr.setRequestHeader("Content-Type", "application/json");
-
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     },
+                    url: $(event.target).attr("href"),
+                    type: "Delete",
                     success: function (smartphone) {
-                        var respContent = "";
+                        var respContent = "delete";
                         var rowToDelete = $(event.target).closest("tr");
                         rowToDelete.remove();
                         respContent += "<span class='success'>Smartphone was deleted: [";

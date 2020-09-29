@@ -10,21 +10,27 @@
                 var producer = $('#producer').val();
                 var model = $('#model').val();
                 var price = $('#price').val();
-                var json = {"producer":producer, "model":model, "price":price};
+                var json = {
+                    "producer": {
+                        "id": producer,
+                    },
+                    "model": model,
+                    "price": price,
+
+                };
                 $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
                     url: $("#editSmartphoneForm").attr("action"),
                     data: JSON.stringify(json),
-                    type: "POST",
-
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Accept", "application/json");
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                    },
+                    type: "PUT",
                     success: function (smartphone) {
                         var respContent = "";
 
                         respContent += "<span class='success'>Smartphone was edited: [";
-                        respContent += smartphone.producer + " : ";
+                        respContent += smartphone.producer.name + " : ";
                         respContent += smartphone.model + " : ";
                         respContent += smartphone.price + "]</span>";
                         $("#sPhoneFromResponse").html(respContent);
