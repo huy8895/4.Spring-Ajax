@@ -46,12 +46,12 @@ public class SmartphoneController {
         return mav;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void createSmartphone(@RequestParam("image") MultipartFile image) {
+    public Smartphone createSmartphone(Smartphone smartphone) {
         //1 gan student nhung thuoc tinh cua studentForm
 
-        System.out.println(image);
+        System.out.println(smartphone);
 //        MultipartFile file = smartphone.getImage();
 //        String image = file.getOriginalFilename();
 //        String fileUpload = environment.getProperty("file_upload");
@@ -62,6 +62,7 @@ public class SmartphoneController {
 //        }
 //        smartphone.setProducer(producerRepository.findOne(smartphone.getProducer().getId()));
 //        return smartphoneService.save(smartphone);
+        return smartphone;
     }
 
     @GetMapping("")
