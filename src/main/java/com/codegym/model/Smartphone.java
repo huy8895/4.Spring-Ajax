@@ -63,7 +63,7 @@ public class Smartphone {
 
     @Override
     public String toString() {
-        return producer+": "+model+" with price "+price;
+        return this.getClass().getSimpleName() + " " + producer.getName()+": "+model+" with price "+price;
     }
 
 }

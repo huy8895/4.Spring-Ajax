@@ -7,20 +7,20 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#newSmartphoneForm').submit(function (event) {
-                var fd = new FormData();
-                var producer = $('#producer').val();
-                var model = $('#model').val();
-                var price = $('#price').val();
-                var image = $('#image')[0].files[0];
-                var json = {
-                    "producer": {
-                        "id": producer,
-                    },
-                    "model": model,
-                    "price": price,
-                };
-                fd.append("file",image);
-                fd.append("smartphone",JSON.stringify(json));
+                // var fd = new FormData();
+                // var producer = $('#producer').val();
+                // var model = $('#model').val();
+                // var price = $('#price').val();
+                // var image = $('#image')[0].files[0];
+                // var json = {
+                //     "producer": {
+                //         "id": producer,
+                //     },
+                //     "model": model,
+                //     "price": price,
+                // };
+                // fd.append("file",image);
+                // fd.append("smartphone",JSON.stringify(json));
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -28,16 +28,16 @@
                     },
                     enctype: 'multipart/form-data',
                     type: "POST",
-                    data: fd,
+                    data: new FormData(),
                     url: "/smartphones/create",
-                    success: function (smartphone) {
-                        var respContent = "";
-                        respContent += "<span class='success'>Smartphone was created: [";
-                        respContent += smartphone.producer.name + " : ";
-                        respContent += smartphone.model + " : ";
-                        respContent += smartphone.price + "]</span>"
-                        $("#sPhoneFromResponse").html(respContent);
-                    }
+                    // success: function (smartphone) {
+                    //     var respContent = "";
+                    //     respContent += "<span class='success'>Smartphone was created: [";
+                    //     respContent += smartphone.producer.name + " : ";
+                    //     respContent += smartphone.model + " : ";
+                    //     respContent += smartphone.price + "]</span>"
+                    //     $("#sPhoneFromResponse").html(respContent);
+                    // }
                 });
                 event.preventDefault();
             });
