@@ -6,30 +6,19 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#newSmartphoneForm').submit(function (event) {
-                var fd = new FormData();
-                var producer = $('#producer').val();
-                var model = $('#model').val();
-                var price = $('#price').val();
-                var image = $('#image')[0].files[0];
-                var json = {
-                    "producer": {
-                        "id": producer,
-                    },
-                    "model": model,
-                    "price": price,
-                };
-                fd.append("file",image);
-                fd.append("smartphone",JSON.stringify(json));
+            $('#submit-bt').click(function (event) {
+                var form = $('#newSmartphoneForm')[0];
+                var data = new FormData(form);
+                $("#submit-bt").prop("disabled", true);
+
                 $.ajax({
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
                     enctype: 'multipart/form-data',
                     type: "POST",
-                    data: fd,
+                    data: data,
                     url: "/smartphones/create",
+                    // ngăn jQuery tự động chuyển đổi dữ liệu thành chuỗi truy vấn
+                    processData: false,
+                    contentType: false,
                     success: function (smartphone) {
                         var respContent = "";
                         respContent += "<span class='success'>Smartphone was created: [";
@@ -76,7 +65,7 @@
                 <td><input type="file" th:field="*{image}"/></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Create"/></td>
+                <td><input type="submit" value="Create" id="submit-bt"/></td>
                 <td></td>
             </tr>
             </tbody>
