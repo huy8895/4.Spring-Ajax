@@ -46,23 +46,21 @@ public class SmartphoneController {
         return mav;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Smartphone createSmartphone(Smartphone smartphone) {
+    @PostMapping("/create")
+    public ResponseEntity<Smartphone> createSmartphone(Smartphone smartphone) {
         //1 gan student nhung thuoc tinh cua studentForm
 
         System.out.println(smartphone);
-//        MultipartFile file = smartphone.getImage();
-//        String image = file.getOriginalFilename();
-//        String fileUpload = environment.getProperty("file_upload");
-//        try {
-//            FileCopyUtils.copy(image.getBytes(), new File(fileUpload + image));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        smartphone.setProducer(producerRepository.findOne(smartphone.getProducer().getId()));
-//        return smartphoneService.save(smartphone);
-        return smartphone;
+        MultipartFile file = smartphone.getImage();
+        String image = file.getOriginalFilename();
+        String fileUpload = environment.getProperty("file_upload");
+        try {
+            FileCopyUtils.copy(image.getBytes(), new File(fileUpload + image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        smartphoneService.save(smartphone);
+        return ResponseEntity.ok().body(smartphone);
     }
 
     @GetMapping("")
