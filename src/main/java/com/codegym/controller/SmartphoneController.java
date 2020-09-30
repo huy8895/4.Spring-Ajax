@@ -55,11 +55,12 @@ public class SmartphoneController {
         String image = file.getOriginalFilename();
         String fileUpload = environment.getProperty("file_upload");
         try {
-            FileCopyUtils.copy(image.getBytes(), new File(fileUpload + image));
+            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + image));
         } catch (IOException e) {
             e.printStackTrace();
         }
         smartphoneService.save(smartphone);
+        smartphone.setImage(null);
         return ResponseEntity.ok().body(smartphone);
     }
 
